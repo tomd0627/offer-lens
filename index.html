@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offer Lens — Paste your job offer. Know if it's fair.</title>
+    <meta
+      name="description"
+      content="Paste a job offer letter and get an AI-powered breakdown of compensation fairness, benefits quality, red flags, and negotiation angles."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Offer Lens" />
+    <meta
+      property="og:description"
+      content="Paste your job offer. Know if it's fair. AI-powered compensation analysis by a senior advisor in your corner."
+    />
+    <meta property="og:image" content="assets/og-image.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="container">
+        <div class="wordmark">
+          <svg
+            aria-hidden="true"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="12" cy="12" r="9" stroke="#B45309" stroke-width="2.5" />
+            <line
+              x1="18.5"
+              y1="18.5"
+              x2="26"
+              y2="26"
+              stroke="#B45309"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span class="wordmark__name">Offer Lens</span>
+        </div>
+        <p class="site-tagline">Paste your job offer. Know if it&rsquo;s fair.</p>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <div class="container">
+        <!-- API Key Gate -->
+        <section id="api-key-section" class="card" aria-labelledby="api-key-heading">
+          <h2 id="api-key-heading" class="card__heading">Your Anthropic API Key</h2>
+          <p class="card__description">
+            Offer Lens calls the Claude API directly from your browser. Your key is stored in
+            session memory only and never leaves your device.
+          </p>
+          <div class="field">
+            <label for="api-key-input" class="field__label">API Key</label>
+            <input
+              type="password"
+              id="api-key-input"
+              class="field__input"
+              placeholder="sk-ant-..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <span class="field__hint">
+              Get your key at
+              <a
+                href="https://console.anthropic.com/settings/keys"
+                target="_blank"
+                rel="noopener noreferrer"
+                >console.anthropic.com</a
+              >
+            </span>
+          </div>
+          <button id="save-key-btn" class="btn btn--primary" type="button">
+            Save &amp; Continue
+          </button>
+        </section>
+
+        <!-- Input Form -->
+        <section id="input-section" class="card hidden" aria-labelledby="input-heading">
+          <div class="section-intro">
+            <h2 id="input-heading" class="card__heading">Analyze Your Offer</h2>
+            <button id="change-key-btn" class="btn btn--ghost btn--sm" type="button">
+              Change API key
+            </button>
+          </div>
+
+          <form id="offer-form" novalidate>
+            <div class="field">
+              <label for="offer-text" class="field__label">
+                Job Offer Letter or Description
+                <span class="field__required" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="offer-text"
+                name="offer-text"
+                class="field__textarea"
+                rows="10"
+                placeholder="Paste the full offer letter, job description, or compensation details here..."
+                aria-describedby="offer-text-error"
+                aria-required="true"
+              ></textarea>
+              <span id="offer-text-error" class="field__error" role="alert"></span>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="target-salary" class="field__label">Your Target Salary</label>
+                <input
+                  type="text"
+                  id="target-salary"
+                  name="target-salary"
+                  class="field__input"
+                  placeholder="e.g. $120,000"
+                  aria-describedby="target-salary-hint"
+                />
+                <span id="target-salary-hint" class="field__hint">Annual base, before bonus</span>
+              </div>
+
+              <div class="field">
+                <label for="location" class="field__label">Location / Metro Area</label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  class="field__input"
+                  placeholder="e.g. San Francisco, CA"
+                  aria-describedby="location-hint"
+                />
+                <span id="location-hint" class="field__hint">Used for cost-of-living context</span>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="experience" class="field__label">Years of Experience</label>
+                <input
+                  type="text"
+                  id="experience"
+                  name="experience"
+                  class="field__input"
+                  placeholder="e.g. 5"
+                  aria-describedby="experience-hint"
+                />
+                <span id="experience-hint" class="field__hint">Total professional experience</span>
+              </div>
+
+              <div class="field">
+                <label for="role-industry" class="field__label">
+                  Role / Industry
+                  <span class="field__optional">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="role-industry"
+                  name="role-industry"
+                  class="field__input"
+                  placeholder="e.g. Senior Software Engineer, FinTech"
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button id="analyze-btn" class="btn btn--primary btn--lg" type="submit">
+                <i data-lucide="search" aria-hidden="true"></i>
+                Analyze Offer
+              </button>
+              <button id="sample-btn" class="btn btn--ghost" type="button">
+                Load sample offer
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Loading State -->
+        <section
+          id="loading-section"
+          class="hidden"
+          role="status"
+          aria-label="Analyzing your offer"
+        >
+          <div class="skeleton-card">
+            <div class="skeleton skeleton--title"></div>
+            <div class="skeleton skeleton--subtitle"></div>
+            <div class="skeleton-grid">
+              <div class="skeleton skeleton--block"></div>
+              <div class="skeleton skeleton--block"></div>
+            </div>
+            <div class="skeleton skeleton--line"></div>
+            <div class="skeleton skeleton--line skeleton--line-short"></div>
+            <div class="skeleton skeleton--line"></div>
+          </div>
+          <p class="loading-label">
+            <i data-lucide="loader-circle" aria-hidden="true" class="loading-spinner"></i>
+            Reviewing your offer&hellip;
+          </p>
+        </section>
+
+        <!-- Error State -->
+        <section
+          id="error-section"
+          class="card card--error hidden"
+          aria-labelledby="error-heading"
+          role="alert"
+        >
+          <div class="error-icon-wrap">
+            <i data-lucide="alert-circle" aria-hidden="true" class="error-icon"></i>
+          </div>
+          <div>
+            <h2 id="error-heading" class="card__heading card__heading--error">
+              Something went wrong
+            </h2>
+            <p id="error-message" class="error-message"></p>
+            <button id="retry-btn" class="btn btn--primary" type="button">Try Again</button>
+          </div>
+        </section>
+
+        <!-- Output Section -->
+        <section id="output-section" class="hidden" aria-labelledby="output-heading">
+          <div class="output-header">
+            <h2 id="output-heading" tabindex="-1" class="output-title">Analysis Complete</h2>
+            <button id="copy-btn" class="btn btn--ghost btn--sm" type="button">
+              <i data-lucide="copy" aria-hidden="true"></i>
+              Copy report
+            </button>
+          </div>
+
+          <!-- Score Card -->
+          <div class="score-card card" aria-label="">
+            <div class="score-display">
+              <span class="score-number" id="score-number"></span>
+              <span class="score-denom">/10</span>
+            </div>
+            <div class="score-meta">
+              <span class="score-label" id="score-label"></span>
+              <p class="score-description" id="score-description"></p>
+            </div>
+          </div>
+
+          <!-- Compensation -->
+          <div class="result-card card" id="compensation-card">
+            <h3 class="result-card__heading">
+              <i data-lucide="dollar-sign" aria-hidden="true"></i>
+              Compensation
+            </h3>
+            <div class="verdict-badge" id="comp-verdict"></div>
+            <dl class="detail-list" id="comp-details"></dl>
+          </div>
+
+          <!-- Benefits -->
+          <div class="result-card card" id="benefits-card">
+            <h3 class="result-card__heading">
+              <i data-lucide="heart-pulse" aria-hidden="true"></i>
+              Benefits
+            </h3>
+            <dl class="detail-list" id="benefits-details"></dl>
+          </div>
+
+          <!-- Red Flags -->
+          <div class="result-card card" id="flags-card">
+            <h3 class="result-card__heading">
+              <i data-lucide="flag" aria-hidden="true"></i>
+              Red Flags &amp; Watch Points
+            </h3>
+            <ul class="flags-list" id="flags-list"></ul>
+          </div>
+
+          <!-- Negotiation -->
+          <div class="result-card card" id="negotiation-card">
+            <h3 class="result-card__heading">
+              <i data-lucide="message-square" aria-hidden="true"></i>
+              Negotiation Angles
+            </h3>
+            <ol class="negotiation-list" id="negotiation-list"></ol>
+          </div>
+
+          <!-- Summary -->
+          <div class="result-card card result-card--summary" id="summary-card">
+            <h3 class="result-card__heading">
+              <i data-lucide="file-text" aria-hidden="true"></i>
+              Plain-English Verdict
+            </h3>
+            <div class="summary-text" id="summary-text"></div>
+          </div>
+
+          <div class="output-footer">
+            <button id="analyze-another-btn" class="btn btn--primary" type="button">
+              <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+              Analyze Another Offer
+            </button>
+            <button id="copy-btn-footer" class="btn btn--ghost" type="button">
+              <i data-lucide="copy" aria-hidden="true"></i>
+              Copy report
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          Built by
+          <a href="https://tomdeluca.dev" target="_blank" rel="noopener noreferrer">Tom DeLuca</a>
+          &middot; Powered by Claude
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/analyzer.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

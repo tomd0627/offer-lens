@@ -1,0 +1,38 @@
+{
+  "name": "offer-lens",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI-powered job offer analyzer. Paste your offer, know if it's fair.",
+  "scripts": {
+    "lint:css": "stylelint css/*.css",
+    "lint:js": "eslint js/*.js",
+    "lint:html": "html-validate index.html",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
+      "html-validate",
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "html-validate": "^9.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-order": "^6.0.0"
+  }
+}
