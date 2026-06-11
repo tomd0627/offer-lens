@@ -108,10 +108,10 @@ function renderResult(data) {
       '<span class="flag-severity">' +
       escapeHtml(severity) +
       '</span>' +
-      '<span class="flag-title">' +
-      escapeHtml(flag.title || '') +
-      '</span>' +
       '</div>' +
+      '<p class="flag-title">' +
+      escapeHtml(flag.title || '') +
+      '</p>' +
       '<p class="flag-detail">' +
       escapeHtml(flag.detail || '') +
       '</p>';
@@ -122,18 +122,19 @@ function renderResult(data) {
   // Negotiation
   var negList = document.getElementById('negotiation-list');
   negList.innerHTML = '';
-  (data.negotiation || []).forEach(function (item) {
+  (data.negotiation || []).forEach(function (item, idx) {
     var li = document.createElement('li');
     li.className = 'negotiation-item';
     li.innerHTML =
-      '<div class="negotiation-content">' +
       '<p class="negotiation-angle">' +
+      '<span class="negotiation-num" aria-hidden="true">' +
+      (idx + 1) +
+      '</span>' +
       escapeHtml(item.angle || '') +
       '</p>' +
       '<blockquote class="negotiation-example">' +
       escapeHtml(item.example || '') +
-      '</blockquote>' +
-      '</div>';
+      '</blockquote>';
     negList.appendChild(li);
   });
 

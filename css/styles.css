@@ -640,13 +640,13 @@ main:focus {
 .flags-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .flag-item {
   border-inline-start: 3px solid var(--color-border);
   border-radius: var(--radius-sm);
-  padding-block: var(--space-md);
+  padding-block: var(--space-lg);
   padding-inline: var(--space-md);
 }
 
@@ -712,20 +712,17 @@ main:focus {
 .flag-title {
   font-size: 0.9375rem;
   font-weight: 600;
-  margin-inline-start: auto;
-  margin-inline-start: 0;
+  margin-block-end: var(--space-sm);
 }
 
 .flag-detail {
   color: var(--color-ink-muted);
   font-size: 0.9375rem;
   line-height: 1.5;
-  padding-inline-start: 1.5rem;
 }
 
 /* Negotiation */
 .negotiation-list {
-  counter-reset: negotiation;
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -733,30 +730,31 @@ main:focus {
 }
 
 .negotiation-item {
-  counter-increment: negotiation;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-sm);
-  grid-template-columns: 2rem 1fr;
 }
 
-.negotiation-item::before {
+.negotiation-angle {
+  align-items: center;
+  display: flex;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  gap: var(--space-sm);
+}
+
+.negotiation-num {
+  align-items: center;
   background-color: var(--color-accent);
   block-size: 2rem;
   border-radius: 50%;
   color: #fff;
-  content: counter(negotiation);
-  display: grid;
+  display: inline-flex;
+  flex-shrink: 0;
   font-size: 0.8125rem;
   font-weight: 600;
   inline-size: 2rem;
-  margin-block-start: 2px;
-  place-items: center;
-}
-
-.negotiation-angle {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  margin-block-end: var(--space-xs);
+  justify-content: center;
 }
 
 .negotiation-example {
@@ -768,7 +766,7 @@ main:focus {
   font-style: italic;
   line-height: 1.5;
   margin: 0;
-  padding-block: var(--space-sm);
+  padding-block: var(--space-md);
   padding-inline: var(--space-md);
 }
 
@@ -855,14 +853,6 @@ main:focus {
 
   .detail-item {
     grid-template-columns: 1fr;
-  }
-
-  .negotiation-item {
-    grid-template-columns: 1fr;
-  }
-
-  .negotiation-item::before {
-    margin-block-start: 0;
   }
 
   .output-footer {
