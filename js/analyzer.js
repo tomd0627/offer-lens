@@ -52,7 +52,7 @@ function stripJsonFences(text) {
 }
 
 async function analyzeOffer(offerText, salary, location, experience, role) {
-  var apiKey = window.sessionStorage.getItem('ol_api_key');
+  var apiKey = window.localStorage.getItem('ol_api_key');
   if (!apiKey) {
     throw new Error('NO_KEY');
   }

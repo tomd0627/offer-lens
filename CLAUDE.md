@@ -6,7 +6,7 @@ Vanilla HTML/CSS/JS. No framework, no bundler, no transpilation. Files are serve
 
 ## Key Decisions
 
-**API key delivery:** User enters their Anthropic key in a UI field on first visit. Stored in `sessionStorage` under `ol_api_key`. Never hardcoded, never committed.
+**API key delivery:** User enters their Anthropic key in a UI field on first visit. Stored in `localStorage` under `ol_api_key` — persists across sessions until explicitly cleared via "Change API key". Never hardcoded, never committed.
 
 **Module system:** `package.json` has `"type": "module"` so ESLint/stylelint configs can use ESM (`export default`). Browser JS files (`js/*.js`) use classic script mode — ESLint is configured with `sourceType: 'script'` for those files. Do NOT add `export`/`import` to browser JS.
 

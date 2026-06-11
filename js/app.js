@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Determine initial view
-  var savedKey = window.sessionStorage.getItem('ol_api_key');
+  var savedKey = window.localStorage.getItem('ol_api_key');
   if (savedKey) {
     showSection('input-section');
   } else {
@@ -133,14 +133,14 @@ document.addEventListener('DOMContentLoaded', function () {
       keyInput.focus();
       return;
     }
-    window.sessionStorage.setItem('ol_api_key', key);
+    window.localStorage.setItem('ol_api_key', key);
     keyInput.value = '';
     showSection('input-section');
   });
 
   // Change key
   document.getElementById('change-key-btn').addEventListener('click', function () {
-    window.sessionStorage.removeItem('ol_api_key');
+    window.localStorage.removeItem('ol_api_key');
     showSection('api-key-section');
     document.getElementById('api-key-input').focus();
   });
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (heading) heading.focus();
     } catch (err) {
       if (err.message === 'INVALID_KEY') {
-        window.sessionStorage.removeItem('ol_api_key');
+        window.localStorage.removeItem('ol_api_key');
       }
       setError(friendlyError(err));
     }
