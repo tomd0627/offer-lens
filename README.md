@@ -7,7 +7,7 @@ An AI-powered job offer analyzer that gives you the senior compensation advisor 
 ## Tech Stack
 
 - Vanilla HTML / CSS / JS — no framework, no build step
-- [Claude API](https://www.anthropic.com) (`claude-sonnet-4-20250514`) for analysis
+- [Claude API](https://www.anthropic.com) (`claude-sonnet-4-6`) for analysis
 - [Lucide](https://lucide.dev) icons via CDN
 - Deployed on Netlify
 
